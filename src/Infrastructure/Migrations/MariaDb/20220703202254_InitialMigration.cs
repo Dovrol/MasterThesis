@@ -1,73 +1,85 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Infrastructure.Migrations
+namespace Infrastructure.Migrations.MariaDb
 {
-    public partial class InitialMigration1 : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterDatabase()
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.CreateTable(
                 name: "CUSTOMERS",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    FIRST_NAME = table.Column<string>(type: "text", nullable: false),
-                    LAST_NAME = table.Column<string>(type: "text", nullable: false),
-                    EMAIL = table.Column<string>(type: "text", nullable: false),
-                    GENDER = table.Column<string>(type: "text", nullable: false)
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    FIRST_NAME = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LAST_NAME = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    EMAIL = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    GENDER = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CUSTOMERS", x => x.ID);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "DELIVERY_METHODS",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    DESCRIPTION = table.Column<string>(type: "text", nullable: false)
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    DESCRIPTION = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DELIVERY_METHODS", x => x.ID);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "PAYMENT_METHODS",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    DESCRIPTION = table.Column<string>(type: "text", nullable: false)
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    DESCRIPTION = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PAYMENT_METHODS", x => x.ID);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "ORDERS",
                 columns: table => new
                 {
-                    ORDER_NUMBER = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    PAYMENT_METHOD = table.Column<int>(type: "integer", nullable: false),
-                    DELIVERY_METHOD = table.Column<int>(type: "integer", nullable: false),
-                    FREE_DELIVERY = table.Column<bool>(type: "boolean", nullable: false),
-                    GROSS_VALUE = table.Column<decimal>(type: "numeric", nullable: false),
-                    NET_VALUE = table.Column<decimal>(type: "numeric", nullable: false),
-                    TAX_VALUE = table.Column<decimal>(type: "numeric", nullable: false),
-                    TAX = table.Column<decimal>(type: "numeric", nullable: false),
-                    CREATION_DATE = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    FULLFILLMENT_DATE = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    CustomerId = table.Column<int>(type: "integer", nullable: false)
+                    ORDER_NUMBER = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    PAYMENT_METHOD = table.Column<int>(type: "int", nullable: false),
+                    DELIVERY_METHOD = table.Column<int>(type: "int", nullable: false),
+                    FREE_DELIVERY = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    GROSS_VALUE = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    NET_VALUE = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    TAX_VALUE = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    TAX = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    CREATION_DATE = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    FULLFILLMENT_DATE = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CustomerId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -90,16 +102,18 @@ namespace Infrastructure.Migrations
                         principalTable: "PAYMENT_METHODS",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "ORDER_ITEMS",
                 columns: table => new
                 {
-                    POSITION = table.Column<int>(type: "integer", nullable: false),
-                    ORDER_ID = table.Column<int>(type: "integer", nullable: false),
-                    NAME = table.Column<string>(type: "text", nullable: false),
-                    NET_VALUE = table.Column<decimal>(type: "numeric", nullable: false)
+                    POSITION = table.Column<int>(type: "int", nullable: false),
+                    ORDER_ID = table.Column<int>(type: "int", nullable: false),
+                    NAME = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    NET_VALUE = table.Column<decimal>(type: "decimal(65,30)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -110,7 +124,8 @@ namespace Infrastructure.Migrations
                         principalTable: "ORDERS",
                         principalColumn: "ORDER_NUMBER",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ORDERS_CustomerId",

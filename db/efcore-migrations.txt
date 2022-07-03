@@ -1,5 +1,5 @@
 1. Initial migration
-    dotnet ef migrations add InitialMigration -p ../Infrastructure -c PostgresDbContext
+    dotnet ef migrations add InitialMigration -p ../Infrastructure -c PostgresDbContext --output-dir Migrations/Postgres
 
 2. Apply migration
     dotnet ef database update -p ../Infrastructure -c PostgresDbContext
