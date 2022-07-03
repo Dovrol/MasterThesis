@@ -1,0 +1,6 @@
+1. Initial migration
+    dotnet ef migrations add InitialMigration -p ../Infrastructure -c PostgresDbContext
+
+2. Apply migration
+    dotnet ef database update -p ../Infrastructure -c PostgresDbContext
+
