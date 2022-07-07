@@ -15,7 +15,10 @@ namespace Infrastructure.EF.MySql
         public static IServiceCollection AddMySql(this IServiceCollection services, IConfiguration configuration)
         {
             var connectionString = configuration["Databases:MySql:ConnectionString"];
-            services.AddDbContext<MySqlDbContext>(ctx => ctx.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 29))));
+            services.AddDbContext<MySqlDbContext>(ctx => 
+                ctx.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 29)), options => {
+                    options.EnableRetryOnFailure();
+                }));
 
             services.AddScoped<IMySqlOrderRepository, MySqlOrderRepository>();
 

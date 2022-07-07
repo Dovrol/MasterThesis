@@ -15,7 +15,9 @@ namespace Infrastructure.EF.Postgres
         public static IServiceCollection AddPostgres(this IServiceCollection services, IConfiguration configuration)
         {
             var connectionString = configuration["Databases:Postgres:ConnectionString"];
-            services.AddDbContext<PostgresDbContext>(ctx => ctx.UseNpgsql(connectionString));
+            services.AddDbContext<PostgresDbContext>(ctx => ctx.UseNpgsql(connectionString, options => {
+                    options.EnableRetryOnFailure();
+                }));
 
             services.AddScoped<IPostgresOrderRepository, PostgresOrderRepository>();
 
