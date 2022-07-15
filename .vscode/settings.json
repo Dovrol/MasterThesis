@@ -1,0 +1,37 @@
+{
+    "sqltools.connections": [
+        {
+            "server": "localhost",
+            "port": 7000,
+            "previewLimit": 50,
+            "askForPassword": true,
+            "driver": "Cassandra",
+            "name": "cass"
+        },
+        {
+            "server": "localhost",
+            "port": 9042,
+            "previewLimit": 50,
+            "driver": "Cassandra",
+            "name": "cass",
+            "password": ""
+        },
+        {
+            "server": "localhost",
+            "port": 9042,
+            "previewLimit": 50,
+            "driver": "Cassandra",
+            "name": "cass",
+            "username": "cassandra",
+            "password": ""
+        },
+        {
+            "server": "0.0.0.0",
+            "port": 9042,
+            "previewLimit": 50,
+            "driver": "Cassandra",
+            "name": "cass",
+            "password": ""
+        }
+    ]
+}

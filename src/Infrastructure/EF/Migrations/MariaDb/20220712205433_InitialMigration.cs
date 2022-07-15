@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Infrastructure.Migrations.MariaDb
+namespace Infrastructure.EF.Migrations.MariaDb
 {
     public partial class InitialMigration : Migration
     {
@@ -68,8 +68,7 @@ namespace Infrastructure.Migrations.MariaDb
                 name: "ORDERS",
                 columns: table => new
                 {
-                    ORDER_NUMBER = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    ORDER_NUMBER = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     PAYMENT_METHOD = table.Column<int>(type: "int", nullable: false),
                     DELIVERY_METHOD = table.Column<int>(type: "int", nullable: false),
                     FREE_DELIVERY = table.Column<bool>(type: "tinyint(1)", nullable: false),
@@ -78,7 +77,7 @@ namespace Infrastructure.Migrations.MariaDb
                     TAX_VALUE = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
                     TAX = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
                     CREATION_DATE = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    FULLFILLMENT_DATE = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    FULLFILLMENT_DATE = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     CustomerId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -110,7 +109,7 @@ namespace Infrastructure.Migrations.MariaDb
                 columns: table => new
                 {
                     POSITION = table.Column<int>(type: "int", nullable: false),
-                    ORDER_ID = table.Column<int>(type: "int", nullable: false),
+                    ORDER_ID = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     NAME = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     NET_VALUE = table.Column<decimal>(type: "decimal(65,30)", nullable: false)

@@ -11,13 +11,13 @@ using Newtonsoft.Json;
 
 namespace Infrastructure.EF
 {
-    public class Seeder<T> where T : AppDbContext
+    public class EFSeeder<T> where T : AppDbContext
     {
-        private const string customersPath = "EF/MockData/customers.json";
+        private const string customersPath = "MockData/customers.json";
         private readonly string? assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
         private readonly T _dbContext;
-        public Seeder(T dbContext)
+        public EFSeeder(T dbContext)
         {
             _dbContext = dbContext;
         }

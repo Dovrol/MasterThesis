@@ -11,6 +11,7 @@ services:
       - postgres
       - mariadb
       - mysql
+      - mongo
     networks:
       - custom-network    
     ports:
@@ -20,6 +21,7 @@ services:
     image: postgres:14.4
     environment:
       - POSTGRES_PASSWORD=mysecretpassword
+      - POSTGRES_DB=db
     networks:
       - custom-network
 
@@ -27,6 +29,7 @@ services:
     image: mariadb:10.7.4
     environment:
       - MARIADB_ROOT_PASSWORD=mysecretpassword
+      - MARIADB_DATABASE=db
     networks:
       - custom-network
 
@@ -35,6 +38,14 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=mysecretpassword
       - MYSQL_TCP_PORT=3307
+      - MYSQL_DATABASE=db
+    networks:
+      - custom-network
+    volumes:
+    - /Users/wiktorkubis/Desktop/mysql:/app
+  
+  mongodb:
+    image: mongo:4.2.21
     networks:
       - custom-network
 

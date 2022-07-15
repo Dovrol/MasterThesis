@@ -3,19 +3,17 @@ using System;
 using Infrastructure.EF.Postgres;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Infrastructure.Migrations.Postgres
+namespace Infrastructure.EF.Migrations.Postgres
 {
     [DbContext(typeof(PostgresDbContext))]
-    [Migration("20220703202230_InitialMigration")]
-    partial class InitialMigration
+    partial class PostgresDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,12 +58,10 @@ namespace Infrastructure.Migrations.Postgres
 
             modelBuilder.Entity("Domain.Entities.Order", b =>
                 {
-                    b.Property<int>("Number")
+                    b.Property<Guid>("Number")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("uuid")
                         .HasColumnName("ORDER_NUMBER");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Number"));
 
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("timestamp with time zone")
@@ -82,7 +78,7 @@ namespace Infrastructure.Migrations.Postgres
                         .HasColumnType("boolean")
                         .HasColumnName("FREE_DELIVERY");
 
-                    b.Property<DateTime>("FulfillmentDate")
+                    b.Property<DateTime?>("FulfillmentDate")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("FULLFILLMENT_DATE");
 
@@ -119,8 +115,8 @@ namespace Infrastructure.Migrations.Postgres
 
             modelBuilder.Entity("Domain.Entities.OrderItem", b =>
                 {
-                    b.Property<int>("OrderId")
-                        .HasColumnType("integer")
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uuid")
                         .HasColumnName("ORDER_ID");
 
                     b.Property<int>("Position")

@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Infrastructure.Migrations.Postgres
+namespace Infrastructure.EF.Migrations.Postgres
 {
     public partial class InitialMigration : Migration
     {
@@ -56,8 +56,7 @@ namespace Infrastructure.Migrations.Postgres
                 name: "ORDERS",
                 columns: table => new
                 {
-                    ORDER_NUMBER = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ORDER_NUMBER = table.Column<Guid>(type: "uuid", nullable: false),
                     PAYMENT_METHOD = table.Column<int>(type: "integer", nullable: false),
                     DELIVERY_METHOD = table.Column<int>(type: "integer", nullable: false),
                     FREE_DELIVERY = table.Column<bool>(type: "boolean", nullable: false),
@@ -66,7 +65,7 @@ namespace Infrastructure.Migrations.Postgres
                     TAX_VALUE = table.Column<decimal>(type: "numeric", nullable: false),
                     TAX = table.Column<decimal>(type: "numeric", nullable: false),
                     CREATION_DATE = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    FULLFILLMENT_DATE = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    FULLFILLMENT_DATE = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     CustomerId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -97,7 +96,7 @@ namespace Infrastructure.Migrations.Postgres
                 columns: table => new
                 {
                     POSITION = table.Column<int>(type: "integer", nullable: false),
-                    ORDER_ID = table.Column<int>(type: "integer", nullable: false),
+                    ORDER_ID = table.Column<Guid>(type: "uuid", nullable: false),
                     NAME = table.Column<string>(type: "text", nullable: false),
                     NET_VALUE = table.Column<decimal>(type: "numeric", nullable: false)
                 },

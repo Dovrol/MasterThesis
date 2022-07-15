@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Bogus;
 using Domain.Entities;
 using Domain.Enums;
 using Domain.Shared;
@@ -21,38 +22,21 @@ namespace Application.Services
 
         public List<Order> CreateOrders(int numberOfOrders)
         {
-            var orders = new List<Order>();
+            var position = 0;
+            var testOrderItem = new Faker<OrderItem>()
+                .RuleFor(o => o.Position, f => position++)
+                .RuleFor(o => o.Name, f => f.Commerce.ProductName())
+                .RuleFor(o => o.NetValue, f => f.Random.Decimal(1, 500));
 
-            for (var i = 0; i < numberOfOrders; i++)
-            {
-                var paymentMethod = Enumeration.GetAll<PaymentMethod>();
-                var deliveryMethod = Enumeration.GetAll<DeliveryMethod>();
+            var testOrders = new Faker<Order>()
+                .RuleFor(o => o.Number, f => Guid.NewGuid())
+                .RuleFor(o => o.PaymentMethodId, f => f.PickRandom(Enumeration.GetAll<PaymentMethod>()).Value)
+                .RuleFor(o => o.DeliveryMethodId, f => f.PickRandom(Enumeration.GetAll<DeliveryMethod>()).Value)
+                .RuleFor(o => o.Tax, f => POLISH_TAX)
+                .RuleFor(o => o.CustomerId, f => f.Random.Int(1, 1000))
+                .RuleFor(o => o.Items, f => testOrderItem.GenerateBetween(ITEMS_PER_ORDER_MIN, ITEMS_PER_ORDER_MAX));
 
-                var order = new Order(GetRandomElement(paymentMethod),
-                                        GetRandomElement(deliveryMethod),
-                                        POLISH_TAX,
-                                        RandomNumber(1, 1000));
-
-
-                var numberOfItems = RandomNumber(ITEMS_PER_ORDER_MIN, ITEMS_PER_ORDER_MAX);
-
-                for (var j = 1; j <= numberOfItems; j++)
-                {
-                    var price = RandomNumber(1, 500);
-                    order.AddItem(new OrderItem(j, "aa", price));
-                }
-
-                orders.Add(order);
-            }
-
-            return orders;
+            return testOrders.Generate(numberOfOrders);
         }
-        private int GetRandomElement<T>(IEnumerable<T> options) where T : Enumeration, new()
-        {
-            return options.OrderBy(x => Guid.NewGuid()).FirstOrDefault().Value;
-        }
-
-        public int RandomNumber(int min, int max)
-            => new Random().Next(min, max);
     }
 }

@@ -5,6 +5,7 @@ using Infrastructure.EF;
 using Infrastructure.EF.MariaDb;
 using Infrastructure.EF.MySql;
 using Infrastructure.EF.Postgres;
+using Infrastructure.MongoDB;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,13 +28,15 @@ app.MapControllers();
 
 using (var scope = app.Services.CreateScope())
 {
-    var postgresSeeder = scope.ServiceProvider.GetRequiredService<Seeder<PostgresDbContext>>();
-    var mySqlSeeder = scope.ServiceProvider.GetRequiredService<Seeder<MySqlDbContext>>();
-    var mariaDbSeeder = scope.ServiceProvider.GetRequiredService<Seeder<MariaDbDbContext>>();
+    var postgresSeeder = scope.ServiceProvider.GetRequiredService<EFSeeder<PostgresDbContext>>();
+    // var mySqlSeeder = scope.ServiceProvider.GetRequiredService<EFSeeder<MySqlDbContext>>();
+    // var mariaDbSeeder = scope.ServiceProvider.GetRequiredService<EFSeeder<MariaDbDbContext>>();
+    // var mongoSeeder = scope.ServiceProvider.GetRequiredService<MongoSeeder>();
 
     await postgresSeeder.Seed();
-    await mySqlSeeder.Seed();
-    await mariaDbSeeder.Seed();
+    // await mySqlSeeder.Seed();
+    // await mariaDbSeeder.Seed();
+    // await mongoSeeder.Seed();
 }
 
 app.Run();

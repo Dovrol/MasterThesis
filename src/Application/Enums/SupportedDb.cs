@@ -4,6 +4,7 @@ namespace Application.Enums
     {
         Postgres,
         MySQL,
-        MariaDb
+        MariaDb,
+        MongoDb
     }
 }

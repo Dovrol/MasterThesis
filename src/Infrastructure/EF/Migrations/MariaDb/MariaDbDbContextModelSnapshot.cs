@@ -3,18 +3,16 @@ using System;
 using Infrastructure.EF.MariaDb;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Infrastructure.Migrations.MariaDb
+namespace Infrastructure.EF.Migrations.MariaDb
 {
     [DbContext(typeof(MariaDbDbContext))]
-    [Migration("20220703202254_InitialMigration")]
-    partial class InitialMigration
+    partial class MariaDbDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,9 +53,9 @@ namespace Infrastructure.Migrations.MariaDb
 
             modelBuilder.Entity("Domain.Entities.Order", b =>
                 {
-                    b.Property<int>("Number")
+                    b.Property<Guid>("Number")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("char(36)")
                         .HasColumnName("ORDER_NUMBER");
 
                     b.Property<DateTime>("CreationDate")
@@ -75,7 +73,7 @@ namespace Infrastructure.Migrations.MariaDb
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("FREE_DELIVERY");
 
-                    b.Property<DateTime>("FulfillmentDate")
+                    b.Property<DateTime?>("FulfillmentDate")
                         .HasColumnType("datetime(6)")
                         .HasColumnName("FULLFILLMENT_DATE");
 
@@ -112,8 +110,8 @@ namespace Infrastructure.Migrations.MariaDb
 
             modelBuilder.Entity("Domain.Entities.OrderItem", b =>
                 {
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int")
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("char(36)")
                         .HasColumnName("ORDER_ID");
 
                     b.Property<int>("Position")

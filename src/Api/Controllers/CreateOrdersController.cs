@@ -17,5 +17,9 @@ namespace Api.Controllers
         [HttpPost("MariaDb")]
         public async Task<IActionResult> MariaDbCreateOrders(int n)
             => Ok(await Mediator.Send(new CreateOrders.Command { N = n, Db = SupportedDb.MariaDb}));
+
+        [HttpPost("MongoDb")]
+        public async Task<IActionResult> MongoDbCreateOrders(int n)
+            => Ok(await Mediator.Send(new CreateOrders.Command { N = n, Db = SupportedDb.MongoDb}));
     }
 }

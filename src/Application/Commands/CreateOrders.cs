@@ -24,16 +24,19 @@ namespace Application.Commands
             private readonly IOrderService _orderService;
             private readonly IPostgresOrderRepository _postgresOrderRepository;
             private readonly IMySqlOrderRepository _mySqlOrderRepository;
-        private readonly IMariaDbOrderRepository _mariaDbOrderRepository;
+            private readonly IMariaDbOrderRepository _mariaDbOrderRepository;
+            private readonly IMongoDbRepository _mongoDbOrderRepository;
 
             public Handler(IMySqlOrderRepository mySqlOrderRepository,
                            IPostgresOrderRepository postgresOrderRepository,
                            IMariaDbOrderRepository mariaDbOrderRepository,
+                           IMongoDbRepository mongoDbRepository,
                            IOrderService orderService)
             {
                 _mariaDbOrderRepository = mariaDbOrderRepository;
                 _mySqlOrderRepository = mySqlOrderRepository;
                 _postgresOrderRepository = postgresOrderRepository;
+                _mongoDbOrderRepository = mongoDbRepository;
                 _orderService = orderService;
             }
 
@@ -48,6 +51,7 @@ namespace Application.Commands
                     SupportedDb.MySQL => _mySqlOrderRepository,
                     SupportedDb.Postgres => _postgresOrderRepository,
                     SupportedDb.MariaDb => _mariaDbOrderRepository,
+                    SupportedDb.MongoDb => _mongoDbOrderRepository,
                     _ => throw new Exception("Db not supported")
                 };
 

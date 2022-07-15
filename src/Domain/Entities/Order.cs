@@ -8,17 +8,9 @@ namespace Domain.Entities
 {
     public class Order
     {
-        public Order(int paymentMethodId, int deliveryMethodId, decimal tax, int customerId)
-        {
-            PaymentMethodId = paymentMethodId;
-            DeliveryMethodId = deliveryMethodId;
-            Tax = tax;
-            CustomerId = customerId;
-        }
-
-        public int Number { get; private set; }
-        public int PaymentMethodId { get; private set; }
-        public int DeliveryMethodId { get; private set; }
+        public Guid Number { get; set; }
+        public int PaymentMethodId { get; set; }
+        public int DeliveryMethodId { get; set; }
         public bool FreeDelivery
         {
             get => GrossValue > 250;
@@ -39,20 +31,13 @@ namespace Domain.Entities
             get => NetValue * Tax;
             private set {}
         }
-        public decimal Tax { get; private set; }
-        public DateTime CreationDate { get; private set; } = DateTime.UtcNow;
-        public DateTime FulfillmentDate { get; private set; }
-        public int CustomerId { get; private set; }
-        public Customer Customer { get; private set; }
-        public PaymentMethod PaymentMethod { get; private set; }           
-        public DeliveryMethod DeliveryMethod { get; private set; }
-        private List<OrderItem> _items = new List<OrderItem>();
-        public IReadOnlyCollection<OrderItem> Items => _items.AsReadOnly();
-
-
-        public void AddItem(OrderItem item)
-        {
-            _items.Add(item);
-        }
+        public decimal Tax { get; set; }
+        public DateTime CreationDate { get; set; } = DateTime.UtcNow;
+        public DateTime? FulfillmentDate { get; set; }
+        public int CustomerId { get; set; }
+        public Customer Customer { get; set; }
+        public PaymentMethod PaymentMethod { get; set; }           
+        public DeliveryMethod DeliveryMethod { get; set; }
+        public List<OrderItem> Items = new List<OrderItem>();
     }
 }
