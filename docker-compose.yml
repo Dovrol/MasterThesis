@@ -41,8 +41,6 @@ services:
       - MYSQL_DATABASE=db
     networks:
       - custom-network
-    volumes:
-    - /Users/wiktorkubis/Desktop/mysql:/app
   
   mongodb:
     image: mongo:4.2.21
