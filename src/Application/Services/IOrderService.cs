@@ -22,11 +22,11 @@ namespace Application.Services
 
         public List<Order> CreateOrders(int numberOfOrders)
         {
-            var position = 0;
+            var position = 1;
             var testOrderItem = new Faker<OrderItem>()
                 .RuleFor(o => o.Position, f => position++)
                 .RuleFor(o => o.Name, f => f.Commerce.ProductName())
-                .RuleFor(o => o.NetValue, f => f.Random.Decimal(1, 500));
+                .RuleFor(o => o.NetValue, f => f.Finance.Amount(1, 500, 2));
 
             var testOrders = new Faker<Order>()
                 .RuleFor(o => o.Number, f => Guid.NewGuid())
@@ -34,7 +34,10 @@ namespace Application.Services
                 .RuleFor(o => o.DeliveryMethodId, f => f.PickRandom(Enumeration.GetAll<DeliveryMethod>()).Value)
                 .RuleFor(o => o.Tax, f => POLISH_TAX)
                 .RuleFor(o => o.CustomerId, f => f.Random.Int(1, 1000))
-                .RuleFor(o => o.Items, f => testOrderItem.GenerateBetween(ITEMS_PER_ORDER_MIN, ITEMS_PER_ORDER_MAX));
+                .RuleFor(o => o.Items, f => testOrderItem.GenerateBetween(ITEMS_PER_ORDER_MIN, ITEMS_PER_ORDER_MAX))
+                .FinishWith((d, o) => {
+                    position = 1;
+                });
 
             return testOrders.Generate(numberOfOrders);
         }

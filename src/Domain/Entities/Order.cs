@@ -28,7 +28,7 @@ namespace Domain.Entities
         } 
         public decimal TaxValue
         {
-            get => NetValue * Tax;
+            get => Math.Round(NetValue * Tax, 2);
             private set {}
         }
         public decimal Tax { get; set; }
