@@ -29,14 +29,14 @@ app.MapControllers();
 using (var scope = app.Services.CreateScope())
 {
     var postgresSeeder = scope.ServiceProvider.GetRequiredService<EFSeeder<PostgresDbContext>>();
-    // var mySqlSeeder = scope.ServiceProvider.GetRequiredService<EFSeeder<MySqlDbContext>>();
-    // var mariaDbSeeder = scope.ServiceProvider.GetRequiredService<EFSeeder<MariaDbDbContext>>();
-    // var mongoSeeder = scope.ServiceProvider.GetRequiredService<MongoSeeder>();
+    var mySqlSeeder = scope.ServiceProvider.GetRequiredService<EFSeeder<MySqlDbContext>>();
+    var mariaDbSeeder = scope.ServiceProvider.GetRequiredService<EFSeeder<MariaDbDbContext>>();
+    var mongoSeeder = scope.ServiceProvider.GetRequiredService<MongoSeeder>();
 
     await postgresSeeder.Seed();
-    // await mySqlSeeder.Seed();
-    // await mariaDbSeeder.Seed();
-    // await mongoSeeder.Seed();
+    await mySqlSeeder.Seed();
+    await mariaDbSeeder.Seed();
+    await mongoSeeder.Seed();
 }
 
 app.Run();

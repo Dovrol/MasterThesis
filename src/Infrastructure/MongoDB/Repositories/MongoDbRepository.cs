@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Domain;
 using Domain.Entities;
 using Domain.Repositories;
+using Infrastructure.Performance;
 using MongoDB.Driver;
 
 namespace Infrastructure.MongoDB.Repositories
@@ -15,9 +17,11 @@ namespace Infrastructure.MongoDB.Repositories
         {
             _orders = mongoContext.GetCollection<Order>();
         }
-        public async Task AddAsync(IEnumerable<Order> orders)
+        public async Task<PerformanceResult> AddAsync(IEnumerable<Order> orders)
         {
-            await _orders.InsertManyAsync(orders);
+            return await PerformanceService.MesureTimeElapsed(async () => {
+                await _orders.InsertManyAsync(orders);
+            });
         }
     }
 }

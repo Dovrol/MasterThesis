@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Application.Dto
+namespace Domain
 {
-    public class PerformanceDto
+    public class PerformanceResult
     {
         public int Hours { get; set; }
         public int Minutes { get; set; }

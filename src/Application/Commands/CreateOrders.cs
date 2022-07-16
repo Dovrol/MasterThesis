@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Application.Dto;
 using Application.Enums;
 using Application.Services;
+using Domain;
 using Domain.Repositories;
 using MediatR;
 
@@ -13,13 +14,13 @@ namespace Application.Commands
 {
     public class CreateOrders
     {
-        public class Command : IRequest<PerformanceDto>
+        public class Command : IRequest<PerformanceResult>
         {
             public int N { get; set; }
             public SupportedDb Db { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, PerformanceDto>
+        public class Handler : IRequestHandler<Command, PerformanceResult>
         {
             private readonly IOrderService _orderService;
             private readonly IPostgresOrderRepository _postgresOrderRepository;
@@ -40,11 +41,10 @@ namespace Application.Commands
                 _orderService = orderService;
             }
 
-            public async Task<PerformanceDto> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<PerformanceResult> Handle(Command request, CancellationToken cancellationToken)
             {
                 var orders = _orderService.CreateOrders(request.N);
 
-                Stopwatch stopwatch = new Stopwatch();
 
                 IOrderRepository repository = request.Db switch 
                 {
@@ -55,18 +55,7 @@ namespace Application.Commands
                     _ => throw new Exception("Db not supported")
                 };
 
-                stopwatch.Start();
-                await repository.AddAsync(orders);  
-                stopwatch.Stop();
-        
-                TimeSpan ts = stopwatch.Elapsed;
-                                
-                return new PerformanceDto {
-                    Hours = ts.Hours,
-                    Minutes = ts.Minutes,
-                    Seconds = ts.Seconds,
-                    Miliseconds = ts.Milliseconds
-                };
+                return await repository.AddAsync(orders);  
             }
         }
     }

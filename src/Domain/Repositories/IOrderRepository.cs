@@ -8,6 +8,6 @@ namespace Domain.Repositories
 {
     public interface IOrderRepository
     {
-        Task AddAsync(IEnumerable<Order> order);
+        Task<PerformanceResult> AddAsync(IEnumerable<Order> order);
     }
 }
