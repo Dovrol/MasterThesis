@@ -31,7 +31,7 @@ namespace Application.Services
                 .RuleFor(o => o.NetValue, f => f.Finance.Amount(1, 500, 2));
 
             var testOrders = new Faker<Order>()
-                .RuleFor(o => o.Number, f => Guid.NewGuid())
+                .RuleFor(o => o.Number, f => f.Random.Guid())
                 .RuleFor(o => o.PaymentMethodId, f => f.PickRandom(Enumeration.GetAll<PaymentMethod>()).Value)
                 .RuleFor(o => o.DeliveryMethodId, f => f.PickRandom(Enumeration.GetAll<DeliveryMethod>()).Value)
                 .RuleFor(o => o.Tax, f => POLISH_TAX)
