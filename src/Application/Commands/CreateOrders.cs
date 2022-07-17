@@ -18,6 +18,7 @@ namespace Application.Commands
         {
             public int N { get; set; }
             public SupportedDb Db { get; set; }
+            public int Seed { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, PerformanceResult>
@@ -43,7 +44,7 @@ namespace Application.Commands
 
             public async Task<PerformanceResult> Handle(Command request, CancellationToken cancellationToken)
             {
-                var orders = _orderService.CreateOrders(request.N);
+                var orders = _orderService.CreateOrders(request.N, request.Seed);
 
 
                 IOrderRepository repository = request.Db switch 

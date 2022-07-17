@@ -32,7 +32,7 @@ namespace Domain.Entities
             private set {}
         }
         public decimal Tax { get; set; }
-        public DateTime CreationDate { get; set; } = DateTime.UtcNow;
+        public DateTime CreationDate { get; set; }
         public DateTime? FulfillmentDate { get; set; }
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }

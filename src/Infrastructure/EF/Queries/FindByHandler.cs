@@ -36,6 +36,16 @@ namespace Infrastructure.EF.Queries
             if (request.CustomerId is not null)
                 query = query.Where(x => x.CustomerId == request.CustomerId);
 
+            if (request.CustomerId is not null)
+                query = query.Where(x => x.CustomerId == request.CustomerId);
+
+            if (request.DateFrom is not null && request.DateTo is not null)
+                query = query.Where(x => x.CreationDate >= request.DateFrom.Value.ToUniversalTime() 
+                    && x.CreationDate <= request.DateTo.Value.ToUniversalTime());
+
+            if (request.ItemsCount is not null)
+                query = query.Where(x => x.Items.Count == request.ItemsCount);
+
             List<Order> orders = default;
             var performance = await PerformanceService.MesureTimeElapsed(async () => {
                 orders = await query.AsNoTracking().ToListAsync();

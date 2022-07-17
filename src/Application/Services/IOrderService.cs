@@ -11,7 +11,7 @@ namespace Application.Services
 {
     public interface IOrderService
     {
-        List<Order> CreateOrders(int numberOfOrders);
+        List<Order> CreateOrders(int numberOfOrders, int seed);
     }
 
     public class OrderService : IOrderService
@@ -20,8 +20,10 @@ namespace Application.Services
         private const int ITEMS_PER_ORDER_MIN = 1;
         private const int ITEMS_PER_ORDER_MAX = 10;
 
-        public List<Order> CreateOrders(int numberOfOrders)
+        public List<Order> CreateOrders(int numberOfOrders, int seed)
         {
+            Randomizer.Seed = new Random(seed);
+
             var position = 1;
             var testOrderItem = new Faker<OrderItem>()
                 .RuleFor(o => o.Position, f => position++)
@@ -34,6 +36,7 @@ namespace Application.Services
                 .RuleFor(o => o.DeliveryMethodId, f => f.PickRandom(Enumeration.GetAll<DeliveryMethod>()).Value)
                 .RuleFor(o => o.Tax, f => POLISH_TAX)
                 .RuleFor(o => o.CustomerId, f => f.Random.Int(1, 1000))
+                .RuleFor(o => o.CreationDate, f => f.Date.Between(DateTime.Now.AddMonths(-1), DateTime.Now).ToUniversalTime())
                 .RuleFor(o => o.Items, f => testOrderItem.GenerateBetween(ITEMS_PER_ORDER_MIN, ITEMS_PER_ORDER_MAX))
                 .FinishWith((d, o) => {
                     position = 1;

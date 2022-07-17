@@ -9,11 +9,11 @@ namespace Api.Controllers
 {
     public class FindOrdersByController : BaseApiController
     {
-        [HttpGet("postgres")]
+        [HttpGet("Postgres")]
         public async Task<IActionResult> PostgresFindBy([FromQuery] PostgresFindBy query)
             => Ok(await Mediator.Send(query));
 
-        [HttpGet("mysql")]
+        [HttpGet("Mysql")]
         public async Task<IActionResult> MySqlFindBy([FromQuery] MySqlFindBy query)
             => Ok(await Mediator.Send(query));
 

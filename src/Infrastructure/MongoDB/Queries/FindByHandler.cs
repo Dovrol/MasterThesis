@@ -25,13 +25,17 @@ namespace Infrastructure.MongoDB.Queries
             var filter = builder.Empty;
 
             if (request.Id is not null)
-            {
                 filter &= builder.Where(x => x.Number == request.Id);
-            }
+
             if (request.CustomerId is not null)
-            {
                 filter &= builder.Where(x => x.CustomerId == request.CustomerId);
-            }
+            
+            if (request.DateFrom is not null && request.DateTo is not null)
+                filter = builder.Where(x => x.CreationDate >= request.DateFrom 
+                    && x.CreationDate <= request.DateTo);
+
+            if (request.ItemsCount is not null)
+                filter = builder.Where(x => x.Items.Count == request.ItemsCount);
 
             List<Order> orders = default;
             var performance = await PerformanceService.MesureTimeElapsed(async () => {
