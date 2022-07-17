@@ -24,6 +24,8 @@ services:
       - POSTGRES_DB=db
     networks:
       - custom-network
+    ports:
+      - 5432:5432      
 
   mariadb:
     image: mariadb:10.7.4
